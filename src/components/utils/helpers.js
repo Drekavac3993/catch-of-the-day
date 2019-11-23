@@ -96,4 +96,4 @@ const getFunName = () => {
   return `${rando(adjectives)}-${rando(adjectives)}-${rando(nouns)}`;
 };
 
-export { formatPrice, slugify, rando, getFunName }
+export { formatPrice, slugify, getFunName }
