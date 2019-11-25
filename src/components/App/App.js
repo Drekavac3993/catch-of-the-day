@@ -17,6 +17,12 @@ class App extends Component {
         this.setState({ fishes });
     };
 
+    addToOrder = (item) => {
+        const order = { ...this.state.order };
+        order[item] = order[item] + 1 || 1;
+        this.setState({ order });
+    };
+
     loadSampleFishes = () => {
         this.setState({ fishes: sampleFishes });
     };
@@ -26,7 +32,10 @@ class App extends Component {
             <div className="catch-of-the-day">
                 <div className="menu">
                     <Header tagline="Fresh Seafood Market"/>
-                    <FishList fishes={ this.state.fishes }/>
+                    <FishList
+                        fishes={ this.state.fishes }
+                        addToOrder={ this.addToOrder }
+                    />
                 </div>
                 <Order />
                 <Inventory
