@@ -6,7 +6,7 @@ class Inventory extends Component{
     render() {
         return (
             <div className="inventory">
-                <h2>Inventory!!!</h2>
+                <h2>Inventory</h2>
                 { Object.keys(this.props.fishes).map(key => (
                     <EditFishForm key={ key }
                                   index={ key }
