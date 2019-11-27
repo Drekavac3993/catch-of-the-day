@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import FishListItem from "../FishListItem";
 
 const FishList = (props) => {
@@ -18,5 +19,11 @@ const FishList = (props) => {
         </ul>
     )
 };
+
+FishList.propTypes = {
+    fishes: PropTypes.object,
+    addToOrder: PropTypes.func
+};
+
 
 export default FishList
