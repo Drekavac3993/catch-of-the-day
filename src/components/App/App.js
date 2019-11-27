@@ -18,9 +18,15 @@ class App extends Component {
         if (localStorageRef) {
             this.setState({ order: JSON.parse(localStorageRef) })
         }
-        this.ref = base.syncState(`${ storeId }/fishes`, {
+
+        this.fishes = base.syncState(`${ storeId }/fishes`, {
             context: this,
             state: 'fishes'
+        });
+
+        this.order = base.syncState(`${ storeId }/order`, {
+            context: this,
+            state: 'order'
         });
     }
 
@@ -30,7 +36,8 @@ class App extends Component {
     }
 
     componentWillUnmount() {
-        base.removeBinding(this.ref);
+        base.removeBinding(this.fishes);
+        base.removeBinding(this.order);
     }
 
     addFish = (fish) => {
@@ -45,9 +52,22 @@ class App extends Component {
         this.setState({ fishes })
     };
 
-    addToOrder = (item) => {
+    deleteFish = (key) => {
+        const fishes = { ...this.state.fishes };
+        fishes[key] = null;
+        this.setState({ fishes });
+        this.removeFromOrder(key);
+    };
+
+    addToOrder = (key) => {
         const order = { ...this.state.order };
-        order[item] = order[item] + 1 || 1;
+        order[key] = order[key] + 1 || 1;
+        this.setState({ order });
+    };
+
+    removeFromOrder = (key) => {
+        const order = { ...this.state.order };
+        order[key] = null;
         this.setState({ order });
     };
 
@@ -70,12 +90,16 @@ class App extends Component {
                         addToOrder={ this.addToOrder }
                     />
                 </div>
-                <Order fishes={ this.state.fishes } order={ this.state.order } />
+                <Order fishes={ this.state.fishes }
+                       order={ this.state.order }
+                       removeFromOrder={ this.removeFromOrder }
+                />
                 <Inventory
                     addFish={ this.addFish }
+                    updateFish={ this.updateFish }
+                    deleteFish={ this.deleteFish }
                     loadSampleFishes={ this.loadSampleFishes }
                     fishes={ this.state.fishes }
-                    updateFish={ this.updateFish }
                 />
             </div>
         );
